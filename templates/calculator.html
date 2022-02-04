@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+ <form method="POST">{% csrf_token %}
+    <input type="text" name="ridename" placeholder="Ride name"/>
+
+    <input type="text" name="excitement_rating" placeholder="Excitement"/>
+
+    <input type="text" name="intensity_rating" placeholder="Intensity"/>
+
+    <input type="text" name="nausea_rating" placeholder="Nausea"/>
+    
+    <!-- {{ form.as_p }}  -->
+    <input type="submit" value="Calculate Ride Value" />
+</form>
+
+<p>
+    Ride Value: 
+    {% if ride_value %} {{ ride_value }} {% endif %}
+</p>
+
+<p>
+    {% if ride_name is None %} Ride Name not found {% endif %}
+</p>
+
+ {% endblock %}

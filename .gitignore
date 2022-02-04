@@ -1,0 +1,5 @@
+__pycache__
+Scripts/
+*.bat
+*.ps1
+*.sh
