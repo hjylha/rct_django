@@ -2,15 +2,16 @@
 
  {% block content %}
 <form method="POST">{% csrf_token %}
-    <input type="text" name="ridename" placeholder="Ride name"/>
+    <!-- <input type="text" name="ridename" placeholder="Ride name"/>
 
     <input type="text" name="excitement_rating" placeholder="Excitement"/>
 
     <input type="text" name="intensity_rating" placeholder="Intensity"/>
 
-    <input type="text" name="nausea_rating" placeholder="Nausea"/>
-    
-    <!-- {{ form.as_p }}  -->
+    <input type="text" name="nausea_rating" placeholder="Nausea"/> -->
+    <table>
+        {{ form.as_table }}
+    </table>
     <input type="submit" value="Save" />
 </form>
  {% endblock %}
