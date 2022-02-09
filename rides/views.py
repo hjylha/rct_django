@@ -44,7 +44,7 @@ def ride_name_html_input(ride_name: str = '') -> str:
     if ride_name:
         return f'''<tr>
                 <td>Ride name</td>
-                <td><input type="text" name="ridename" value="{ride_name}"/></td>
+                <td><input type="text" name="ridename" id="ridename_id" value="{ride_name}"/></td>
             </tr>'''
     return '''<tr>
                 <td>Ride name</td>
@@ -113,8 +113,10 @@ def show_prices_html(prices: list[dict], max_age: int = 250) -> str:
 
 
 def calculator_view(request, *args, **kwargs):
+    ridenames = tuple(rn.name for rn in RideName.objects.all() if rn.is_visible)
     context = {
-        'ride_name': None,
+        'ridenames': ridenames,
+        'ride_name': '',
         # 'excitement_rating': 0,
         # 'intensity_rating': 0,
         # 'nausea_rating': 0,
@@ -135,6 +137,7 @@ def calculator_view(request, *args, **kwargs):
     if request.method == 'POST':
         print(f'POST-request: {request.POST}')
         ride_name = request.POST.get('ridename')
+        
         keys = ['excitement_rating', 'intensity_rating', 'nausea_rating']
         EIN_str = [request.POST.get(key) for key in keys]
 
@@ -170,6 +173,7 @@ def calculator_view(request, *args, **kwargs):
         except ValueError:
             max_age = 250
         context['price_table_html'] = show_prices_html(prices, max_age)
+        print(context['ride_name'])
     if request.method == 'GET':
         print(f'GET-request{request.GET}')
         # ride_name = request.GET.get('ridename')

@@ -1,27 +1,47 @@
 {% extends 'base.html' %}
 
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  
+</script>  
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">  
+</script>  
+    
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+        rel="stylesheet" type="text/css" />  
+{% endblock %}
+
+
 {% block content %}
 
 <h1>Optimal Price Calculator for (open)RCT2</h1>
 
 
-<form method="POST">{% csrf_token %}
+<form autocomplete="off" method="POST">{% csrf_token %}
 <!-- <form method="GET"> -->
     <table>
-        {{ ride_name_input|safe }}
-        <!-- <tr>
+        <tr>
             <td>
                 Ride name
             </td>
-            <td> -->
-                
-                <!-- <input type="text" name="ridename" value={{ridename}}/> -->
-                
-                <!-- <input type="text" name="ridename"/>
-                
+            <td>
+                <input type="text" name="ridename" id="ridename_id" value="{{ride_name}}"/>
             </td>
-            
-        </tr> -->
+        </tr>
+        <script>
+            $( function() {
+                var availableNames = [
+                    {% for ridename in ridenames %}
+                        "{{ ridename }}",
+                    {% endfor %}
+                ];
+                $( "#ridename_id" ).autocomplete({
+                    source: availableNames
+                });
+            });
+        </script>
+        
 
         <tr style="color: white">
             <td>empty</td>
