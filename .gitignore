@@ -1,6 +1,10 @@
 __pycache__
 Lib/
 Scripts/
+*/migrations/*
+manage.py
+pyvenv.cfg
+db.sqlite3
 *.bat
 *.ps1
 *.sh
