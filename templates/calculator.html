@@ -1,26 +1,186 @@
 {% extends 'base.html' %}
 
- {% block content %}
- <form method="POST">{% csrf_token %}
-    <input type="text" name="ridename" placeholder="Ride name"/>
+{% block content %}
 
-    <input type="text" name="excitement_rating" placeholder="Excitement"/>
+<h1>Optimal Price Calculator for (open)RCT2</h1>
 
-    <input type="text" name="intensity_rating" placeholder="Intensity"/>
 
-    <input type="text" name="nausea_rating" placeholder="Nausea"/>
+<form method="POST">{% csrf_token %}
+<!-- <form method="GET"> -->
+    <table>
+        {{ ride_name_input|safe }}
+        <!-- <tr>
+            <td>
+                Ride name
+            </td>
+            <td> -->
+                
+                <!-- <input type="text" name="ridename" value={{ridename}}/> -->
+                
+                <!-- <input type="text" name="ridename"/>
+                
+            </td>
+            
+        </tr> -->
+
+        <tr style="color: white">
+            <td>empty</td>
+            <td>empty</td>
+        </tr>
+        
+        {{ ein_rating_inputs|safe }}
+        <!-- <tr>
+            <td>
+                Excitement rating
+            </td>
+            <td>
+                <input type="text" name="excitement_rating"/>
+            </td>
+            
+        </tr>
+        
+        <tr>
+            <td>
+                Intensity rating
+            </td>
+            <td>
+                <input type="text" name="intensity_rating"/>
+            </td>
+            
+        </tr>
+        
+        <tr>
+            <td>
+                Nausea rating
+            </td>
+            <td>
+                <input type="text" name="nausea_rating"/>
+            </td>
+            
+        </tr> -->
     
+        <tr style="color: white">
+            <td> empty </td>
+            <td> empty </td>
+        </tr>
+
+        <tr>
+            <td>
+                Free entry
+            </td>
+            <td>
+                {% if free_entry %}
+                <input type="checkbox" name="free_entry" checked/>
+                {% else %}
+                <input type="checkbox" name="free_entry"/>
+                {% endif %}
+            </td>
+        </tr>
+
+        {{ version_select_html|safe }}
+        <!-- <tr>
+            <td>
+                Version of the game
+            </td>
+            <td>
+                <select id="version" name="version">
+                    <option value="openrct">OpenRCT2</option>
+                    <option value="classic">RCT Classic/RCT2 original</option>
+                </select>
+            </td>
+        </tr> -->
+
+        {{ age_select_html|safe }}
+        <!-- <tr>
+            <td>
+                Show ages under:
+            </td>
+            <td>
+                <select id="ages" name="ages">
+                    <option value="All">All</option>
+                    <option value="40">40</option>
+                    <option value="88">88</option>
+                    <option value="120">120</option>
+                </select>
+            </td>
+        </tr> -->
+
+        <tr style="color: white">
+            <td> empty </td>
+            <td> empty </td>
+        </tr>
+    
+    
+    </table>
     <!-- {{ form.as_p }}  -->
-    <input type="submit" value="Calculate Ride Value" />
+    <div>
+        <input type="submit" value="Calculate Ride Value" />
+    </div>
+    
 </form>
 
 <p>
-    Ride Value: 
+    Base Ride Value: 
     {% if ride_value %} {{ ride_value }} {% endif %}
 </p>
 
 <p>
-    {% if ride_name is None %} Ride Name not found {% endif %}
+    {% if ride_name == '' %} Ride Name not found {% endif %}
 </p>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <div>
+                    Age between
+                </div>
+                <div>
+                    (in months)
+                </div>
+            </th>
+            <th>
+                <div>
+                    Price 
+                </div>
+                <div>
+                    (if only one
+                </div>
+                <div>
+                    of its type)
+                </div>
+            </th>
+            <th>
+                <div>
+                    Price
+                </div>
+                <div>
+                    (if many rides
+                </div>
+                <div>
+                    of this type)
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ price_table_html|safe }}
+        <!-- <tr>
+            <td>
+                0 - 5
+            </td>
+            <td></td>
+            <td></td>
+
+        </tr>
+        <tr>
+            <td>5 - 12</td>
+            <td></td>
+            <td></td>
+        </tr> -->
+    </tbody>
+</table>
 
  {% endblock %}

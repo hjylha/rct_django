@@ -2,6 +2,7 @@
 from agemodifiers.models import AgeModifier
 from agemodifiers.utils import get_sorted_age_modifiers
 
+# check the given ein ratings
 def get_EIN(ein_input: tuple[str, str, str]) -> tuple[int, int, int]:
     EIN = []
     for item in ein_input:
@@ -16,7 +17,8 @@ def get_EIN(ein_input: tuple[str, str, str]) -> tuple[int, int, int]:
     return tuple(EIN)
 
 
-
+#### CALCULATING PRICES
+#
 # EIN multipliers as 3-tuple, EIN as 3-tuple (of integers)
 def calculate_ride_value(EIN_multipliers : tuple, EIN : tuple) -> int:
     ride_value = 0
@@ -58,8 +60,43 @@ def calc_max_prices(EIN : tuple, EIN_multipliers : tuple, age_modifier : AgeModi
     modified_value_nonunique = apply_many_rides_modifier(modified_value)
     return (maximize_price(modified_value, w_restriction), maximize_price(modified_value_nonunique, w_restriction))
 
-def calculate_all_max_prices(EIN: tuple[int, int, int], EIN_multipliers: tuple[int, int, int], free_entry: bool, w_restriction: bool = True, in_og: bool = False) -> tuple[tuple[int, int]]:
+def calculate_all_max_prices(EIN: tuple[int, int, int], EIN_multipliers: tuple[int, int, int], free_entry: bool, w_restriction: bool = True, in_og: bool = False) -> list[dict]:
     prices = []
     for age_modifier in get_sorted_age_modifiers(in_og):
-        prices.append(calc_max_prices(EIN, EIN_multipliers, age_modifier, free_entry, w_restriction))
-    return tuple(prices)
+        price_u, price = calc_max_prices(EIN, EIN_multipliers, age_modifier, free_entry, w_restriction)
+        price_info = {'age_start': age_modifier.age_start,
+                       'age_end': age_modifier.age_end,
+                       'unique_price': price_u,
+                       'price': price }
+        prices.append(price_info)
+    return prices
+
+
+#### FORMATTING PRICE TABLE
+#
+# if len(word) < num_of_letters, add two spaces for each 'missing' letter
+def add_double_spaces(word: str, num_of_letters: int) -> str:
+    # if len(word) >= num_of_letters:
+    #     return word
+    formatted_word = word
+    for _ in range(num_of_letters - len(word)):
+        formatted_word += '  '
+    return formatted_word
+
+# how to show age1 - age2 as a string
+def format_age_ranges(age1: int, age2: int) -> str:
+    text1 = add_double_spaces(str(age1), 3)
+    text2 = add_double_spaces(str(age2), 3)
+    return f'{text1}  ...  {text2}'
+
+
+# divide by 100 and add spaces
+def price_as_string(price: int) -> str:
+    price_s = str(price)
+    if price == 0:
+        return '  0.00'
+    if price < 100:
+        return f'  0.{price_s}'
+    if price < 1000:
+        return f'  {price_s[0]}.{price_s[1:]}'
+    return f'{price_s[:2]}.{price_s[2:]}'
