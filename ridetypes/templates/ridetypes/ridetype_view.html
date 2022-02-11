@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<table>
+    <tr>
+        <td>Name</td>
+        <td>{{ ridetype.name }}</td>
+    </tr>
+    <tr>
+        <td>Excitement multiplier</td>
+        <td>{{ ridetype.excitement_value }}</td>
+    </tr>
+    <tr>
+        <td>Intensity multiplier</td>
+        <td>{{ ridetype.intensity_value }}</td>
+    </tr>
+    <tr>
+        <td>Nausea multiplier</td>
+        <td>{{ ridetype.nausea_value }}</td>
+    </tr>
+    <tr>
+        <td>Increases the soft guest cap by</td>
+        <td>{{ ridetype.ridebonusvalue }} guests</td>
+    </tr>
+</table>
+
+
+<p>
+    <a href="{% url 'ridetypes:ridetype-table' %}">Back to all ridetypes</a>
+</p>
+
+
+
+
+{% endblock content %}

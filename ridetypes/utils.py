@@ -20,3 +20,7 @@ def get_EIN_values_by_ridename(ride_name: str) -> tuple[int, int, int]:
     if ridetype:
         return get_EIN_values(ridetype)
     return None
+
+
+def get_ridenames_for_ridetype(ridetype: RideType) -> tuple[RideName]:
+    return tuple(rn for rn in RideName.objects.all() if rn.ridetype == ridetype)

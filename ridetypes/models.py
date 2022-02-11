@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -16,6 +17,9 @@ class RideType(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name}: {self.excitement_value}/{self.intensity_value}/{self.nausea_value}, RBV: {self.ridebonusvalue}'
+    
+    def get_absolute_url(self):
+        return reverse('ridetypes:ridetype-detail', kwargs={'name': self.name})
 
 
 # class Alias(models.Model):

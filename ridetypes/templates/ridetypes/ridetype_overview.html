@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<h1>All the ridetypes are here, maybe?</h1>
+
+<table>
+    <thead>
+        <tr>
+            <td>Ridetype</td>
+            <td>Ride names</td>
+            <td>Soft guest cap increase</td>
+            <td>Excitement multiplier</td>
+            <td>Intensity multiplier</td>
+            <td>Nausea multiplier</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ride in ridedata %}
+        <tr>
+            <td>
+                <a href="{% url 'ridetypes:ridetype-detail' ride.0.name %}">{{ ride.0.name }}</a>
+            </td>
+            <td>
+                {% for ridename in ride.1 %}
+                <div>{{ ridename.name }}</div>
+                {% endfor %}
+            </td>
+            <td>{{ ride.0.ridebonusvalue }}</td>
+            <td>{{ ride.0.excitement_value }}</td>
+            <td>{{ ride.0.intensity_value }}</td>
+            <td>{{ ride.0.nausea_value }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
