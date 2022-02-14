@@ -100,3 +100,35 @@ def price_as_string(price: int) -> str:
     if price < 1000:
         return f'  {price_s[0]}.{price_s[1:]}'
     return f'{price_s[:2]}.{price_s[2:]}'
+
+
+# the better the price, the greener the price
+# but mostly just kinda random color decisions
+def price_color_01(price: int) -> tuple:
+    # zero price is red
+    if price == 0:
+        return (1, 0, 0, 1)
+    # turn price to a number between 0 and 100
+    mult = price // 20
+    # high prices are green
+    if mult > 49:
+        mult = (mult - 50) // 2
+        return (0, 0.75 + 0.01*mult, 0, 1)
+    # less green, maybe blue
+    if mult > 19:
+        return (0, 0.4 + 0.01*mult, 0.8 - 0.01*mult, 1)
+    # adding some red perhaps
+    if mult > 4:
+        return (0.4 - 0.01*mult, 0.02 * mult, 0.8 - 0.01*mult, 1)
+    # more red for prices under 1 euro/dollar/etc
+    mult *= 2
+    return (0.9- 0.05*mult, 0, 0.4 + 0.05 * mult, 1)
+
+
+def color_as_rgb256(color_tuple: tuple[float]) -> str:
+    colors = [str(int(color * 255)) for color in color_tuple[:3]]
+    return f'rgb({", ".join(colors)})'
+    
+
+def price_color(price: int) -> str:
+    return color_as_rgb256(price_color_01(price))

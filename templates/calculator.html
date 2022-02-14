@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% block title %}
+OpenRCT2 Ride Price Calculator
+{% endblock title %}
 
 {% block scripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  
@@ -10,7 +13,7 @@
     
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
         rel="stylesheet" type="text/css" />  
-{% endblock %}
+{% endblock scripts %}
 
 
 {% block content %}
@@ -18,8 +21,8 @@
 <h1>Optimal Price Calculator for (open)RCT2</h1>
 
 
-<form autocomplete="off" method="POST">{% csrf_token %}
-<!-- <form method="GET"> -->
+<form autocomplete="off" action="" method="GET">
+<!-- <form autocomplete="off" method="POST">{% csrf_token %} -->
     <table>
         <tr>
             <td>
@@ -84,7 +87,8 @@
             <td> empty </td>
         </tr>
 
-        <tr>
+        {{ entry_price_select_html|safe }}
+        <!-- <tr>
             <td>
                 Free entry
             </td>
@@ -95,7 +99,7 @@
                 <input type="checkbox" name="free_entry"/>
                 {% endif %}
             </td>
-        </tr>
+        </tr> -->
 
         {{ version_select_html|safe }}
         <!-- <tr>
@@ -145,7 +149,7 @@
 </p>
 
 <p>
-    {% if ride_name == '' %} Ride Name not found {% endif %}
+    {% if ride_name is None %} Ride Name not found {% endif %}
 </p>
 
 
@@ -203,4 +207,4 @@
     </tbody>
 </table>
 
- {% endblock %}
+ {% endblock content %}
