@@ -47,3 +47,8 @@ class RideName(models.Model):
     def __str__(self) -> str:
         vis = 'visible' if self.is_visible else 'not visible'
         return f'{self.name}: {vis}'
+
+
+# class BaseRide(models.Model):
+#     ridetype = models.ForeignKey(RideType, on_delete=models.CASCADE)
+#     names = models.ManyToManyField(RideName)
