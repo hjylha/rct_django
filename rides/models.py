@@ -6,7 +6,7 @@ from ridetypes.models import RideType, RideName
 # Create your models here.
 
 class Ride(models.Model):
-    ridetype = models.ForeignKey(RideType, on_delete=models.CASCADE)
+    # ridetype = models.ForeignKey(RideType, on_delete=models.CASCADE)
     ridename = models.ForeignKey(RideName, on_delete=models.CASCADE)
     excitement_rating = models.PositiveIntegerField()
     intensity_rating = models.PositiveIntegerField()
