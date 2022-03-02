@@ -1,4 +1,5 @@
 from pathlib import Path
+import csv
 
 import requests
 
@@ -183,3 +184,9 @@ def get_ride_names_from_file():
         for line in f:
             ride_names.append(read_ride_name_line(line))
     return ride_names
+
+
+def get_product_data_from_file():
+    with open(this_folder_path / 'data/shop_prices.csv', 'r') as f:
+        product_data = [row for row in csv.DictReader(f)]
+    return product_data

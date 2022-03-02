@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # own
     'ridetypes',
     'rides',
+    'stalls',
     'agemodifiers'
 ]
 

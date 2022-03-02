@@ -1,8 +1,9 @@
 '''Scripts to get ride data and age modifiers from OpenRCT2 source'''
 from .utils import this_folder_path
-from .utils import get_age_modifiers_from_file, get_ride_data_from_files, get_ride_names_from_file
+from .utils import get_age_modifiers_from_file, get_ride_data_from_files, get_ride_names_from_file, get_product_data_from_file
 from agemodifiers.models import AgeModifier
 from ridetypes.models import RideType, RideName
+from stalls.models import Product, Stall
 
 
 def get_age_modifiers():
@@ -62,3 +63,25 @@ def get_ride_names():
         if row[5]:
             kwargs['nausea_modifier'] = row[5]
         RideName.objects.create(**kwargs)
+
+
+def get_stall_products():
+    product_data = get_product_data_from_file()
+    for product in product_data:
+        kwargs = {
+            'name': product['Item'],
+            'cost': int(100*float(product['Cost'])),
+            'price_base': int(100*float(product['Base price'])),
+            'price_hot': int(100*float(product['Hot price'])),
+            'price_cold': int(100*float(product['Cold Price'])),
+            'price_initial': int(100*float(product['Initial price']))
+        }
+        if product['Buy in rain'] == 'Yes':
+            kwargs['buy_during_rain'] = True
+        else:
+            kwargs['buy_during_rain'] = False
+        Product.objects.create(**kwargs)
+
+
+def get_stalls():
+    pass
