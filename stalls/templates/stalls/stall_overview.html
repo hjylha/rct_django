@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+RCT Products
+{% endblock title %}
+
+
+{% block content %}
+
+
+<!-- <h1>All the ridetypes are here, maybe?</h1> -->
+
+<table>
+    <thead>
+        <tr>
+            <td>Item name</td>
+            <td>Bought during rain</td>
+            <td>Base Price</td>
+            <td>Hot Price</td>
+            <td>Cold Price</td>
+            <td>Initial Price</td>
+            <td>Cost</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>
+                {{ product.name }}
+            </td>
+            <td>
+                {{ product.buy_during_rain }}
+            </td>
+            <td>
+                {{ product.price_base }}
+            </td>
+            <td>
+                {{ product.price_hot }}
+            </td>
+            <td>
+                {{ product.price_cold }}
+            </td>
+            <td>
+                {{ product.price_initial }}
+            </td>
+            <td>
+                {{ product.cost }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}

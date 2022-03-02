@@ -22,5 +22,6 @@ urlpatterns = [
     path('', calculator_view),
     path('add/', ride_add_view),
     path('admin/', admin.site.urls),
-    path('ridetypes/', include('ridetypes.urls'))
+    path('ridetypes/', include('ridetypes.urls')),
+    path('products/', include('stalls.urls'))
 ]
