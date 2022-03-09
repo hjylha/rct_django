@@ -148,11 +148,11 @@ def calculator_view(request, *args, **kwargs):
         'price_table_html': show_prices_html(calculate_all_max_prices((0, 0, 0), (0, 0, 0), True,))
         }
     f_entry = True
-    print(f'request: {request}')
-    print(*args)
-    print(**kwargs)
+    # print(f'request: {request}')
+    # print(*args)
+    # print(**kwargs)
     if request.method == 'POST':
-        print(f'POST-request: {request.POST}')
+        # print(f'POST-request: {request.POST}')
         ride_name = request.POST.get('ridename')
         if ride_name and not is_valid_ridetype(ride_name):
             context['ride_name'] = None
@@ -194,9 +194,9 @@ def calculator_view(request, *args, **kwargs):
         except ValueError:
             max_age = 250
         context['price_table_html'] = show_prices_html(prices, max_age)
-        print(context['ride_name'])
+        # print(context['ride_name'])
     if request.method == 'GET':
-        print(f'GET-request{request.GET}')
+        # print(f'GET-request{request.GET}')
         ride_name = request.GET.get('ridename')
         
         keys = ['excitement_rating', 'intensity_rating', 'nausea_rating']
