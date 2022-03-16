@@ -169,14 +169,16 @@ def process_request_for_calculation(request_dot_method):
     context['age_select_html'] = ages_select_html(ages)
     free_entry = request_dot_method.get('free_entry')
     context['entry_price_select_html'] = entry_price_select_html(free_entry)
-    print(free_entry)
     if free_entry != 'paid':
         f_entry = True
     in_og = True if version == 'classic' else False
     prices = calculate_all_max_prices(EIN, EIN_values, f_entry, True, in_og)
-    try:
-        max_age = int(ages)
-    except ValueError:
+    if ages:
+        try:
+            max_age = int(ages)
+        except ValueError:
+            max_age = 250
+    else:
         max_age = 250
     context['price_table_html'] = show_prices_html(prices, max_age)
     return context
