@@ -16,12 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from rides.views import ride_add_view, calculator_view
 
 urlpatterns = [
-    path('', calculator_view, name='calculator'),
-    path('add/', ride_add_view),
+    path('', include('rides.urls')),
     path('admin/', admin.site.urls),
     path('ridetypes/', include('ridetypes.urls')),
-    path('products/', include('stalls.urls'))
+    path('products/', include('stalls.urls')),
+    # path('api/', include('api.urls'))
 ]

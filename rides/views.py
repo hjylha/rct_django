@@ -34,7 +34,7 @@ def ride_add_view(request, *args, **kwargs):
         print(type(form))
         print('form is valid')
     context = {'form': form}
-    return render(request, 'add_ride.html', context)
+    return render(request, 'rides/add_ride.html', context)
 
 
 #### VIEWS TO CALCULATE PRICES AND STUFF
@@ -230,4 +230,4 @@ def calculator_view(request, *args, **kwargs):
         except TypeError:
             max_age = 250
         context['price_table_html'] = show_prices_html(prices, max_age)
-    return render(request, 'calculator.html', context)
+    return render(request, 'rides/calculator.html', context)
