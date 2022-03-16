@@ -127,7 +127,7 @@ def show_prices_html(prices: list[dict], max_age: int = 250) -> str:
     return '\n'.join([show_price_row_html(line) for line in prices if line['age_start'] < max_age])
 
 
-def calculator_view(request, *args, **kwargs):
+def process_request_for_calculation(request_dot_method):
     ridenames = tuple(rn.name for rn in RideName.objects.all() if rn.is_visible)
     # set defaults
     context = {
@@ -147,87 +147,49 @@ def calculator_view(request, *args, **kwargs):
         'age_select_html': ages_select_html(),
         'price_table_html': show_prices_html(calculate_all_max_prices((0, 0, 0), (0, 0, 0), True,))
         }
-    f_entry = True
+    f_entry = False
+
+    ride_name = request_dot_method.get('ridename')
+    keys = ['excitement_rating', 'intensity_rating', 'nausea_rating']
+    EIN_str = [request_dot_method.get(key) for key in keys]
+    EIN = get_EIN(EIN_str)
+    context['ein_rating_inputs'] = ein_rating_html_input(EIN)
+    EIN_values = get_EIN_values_by_ridename(ride_name)
+    if EIN_values is None:
+        context['ride_name'] = ''
+    else:
+        context['ride_name'] = ride_name
+    ride_value = calculate_ride_value(EIN_values, EIN)
+    context['ride_value'] = ride_value
+    context['ride_name_input'] = ride_name_html_input(context['ride_name'])
+
+    version = request_dot_method.get('version')
+    context['version_select_html'] = version_select_html(version)
+    ages = request_dot_method.get('ages')
+    context['age_select_html'] = ages_select_html(ages)
+    free_entry = request_dot_method.get('free_entry')
+    context['entry_price_select_html'] = entry_price_select_html(free_entry)
+    print(free_entry)
+    if free_entry != 'paid':
+        f_entry = True
+    in_og = True if version == 'classic' else False
+    prices = calculate_all_max_prices(EIN, EIN_values, f_entry, True, in_og)
+    try:
+        max_age = int(ages)
+    except ValueError:
+        max_age = 250
+    context['price_table_html'] = show_prices_html(prices, max_age)
+    return context
+
+
+def calculator_view(request, *args, **kwargs):
     # print(f'request: {request}')
     # print(*args)
     # print(**kwargs)
     if request.method == 'POST':
         # print(f'POST-request: {request.POST}')
-        ride_name = request.POST.get('ridename')
-        if ride_name and not is_valid_ridetype(ride_name):
-            context['ride_name'] = None
-
-        
-        keys = ['excitement_rating', 'intensity_rating', 'nausea_rating']
-        EIN_str = [request.POST.get(key) for key in keys]
-
-        EIN = get_EIN(EIN_str)
-        context['ein_rating_inputs'] = ein_rating_html_input(EIN)
-        EIN_values = get_EIN_values_by_ridename(ride_name)
-        # print(f'EIN ratings: {EIN}')
-        # print(f'EIN multipliers: {EIN_values}')
-        ride_value = calculate_ride_value(EIN_values, EIN)
-        # if EIN_values is None:
-        #     context['ride_name'] = ''
-        # else:
-        #     context['ride_name'] = ride_name
-        # more_keys = ['free_entry', 'ride_value']
-        # for key in more_keys:
-        #     context[key] = request.POST.get(key)
-        context['ride_value'] = ride_value
-        # context['free_entry'] = request.POST.get('free_entry')
-        # print(context['ride_name'])
-        context['ride_name_input'] = ride_name_html_input(context['ride_name'])
-        version = request.POST.get('version')
-        context['version_select_html'] = version_select_html(version)
-        ages = request.POST.get('ages')
-        context['age_select_html'] = ages_select_html(ages)
-        free_entry = request.POST.get('free_entry')
-        context['entry_price_select_html'] = entry_price_select_html(free_entry)
-        if free_entry != 'free':
-            # context['free_entry'] = None
-            f_entry = False
-        in_og = True if version == 'classic' else False
-        prices = calculate_all_max_prices(EIN, EIN_values, f_entry, True, in_og)
-        try:
-            max_age = int(ages)
-        except ValueError:
-            max_age = 250
-        context['price_table_html'] = show_prices_html(prices, max_age)
-        # print(context['ride_name'])
+        context = process_request_for_calculation(request.POST)
     if request.method == 'GET':
         # print(f'GET-request{request.GET}')
-        ride_name = request.GET.get('ridename')
-        
-        keys = ['excitement_rating', 'intensity_rating', 'nausea_rating']
-        EIN_str = [request.GET.get(key) for key in keys]
-
-        EIN = get_EIN(EIN_str)
-        context['ein_rating_inputs'] = ein_rating_html_input(EIN)
-        EIN_values = get_EIN_values_by_ridename(ride_name)
-        ride_value = calculate_ride_value(EIN_values, EIN)
-        if EIN_values is None:
-            context['ride_name'] = ''
-        else:
-            context['ride_name'] = ride_name
-        context['ride_value'] = ride_value
-        context['ride_name_input'] = ride_name_html_input(context['ride_name'])
-        version = request.GET.get('version')
-        context['version_select_html'] = version_select_html(version)
-        ages = request.GET.get('ages')
-        context['age_select_html'] = ages_select_html(ages)
-        free_entry = request.GET.get('free_entry')
-        context['entry_price_select_html'] = entry_price_select_html(free_entry)
-        if free_entry != 'free':
-            # context['free_entry'] = None
-            f_entry = False
-        in_og = True if version == 'classic' else False
-        prices = calculate_all_max_prices(EIN, EIN_values, f_entry, True, in_og)
-        try:
-            max_age = int(ages)
-        except ValueError:
-            max_age = 250
-        except TypeError:
-            max_age = 250
-        context['price_table_html'] = show_prices_html(prices, max_age)
+        context = process_request_for_calculation(request.GET)
     return render(request, 'rides/calculator.html', context)
