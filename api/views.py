@@ -9,6 +9,7 @@ from .serializers import RideTypeSerializer, RideNameSerializer, ProductSerializ
 
 # Create your views here.
 
+
 @api_view(['GET'])
 def OverviewAPI(request):
     stuff = [
@@ -29,19 +30,21 @@ def get_ridenames(request):
     # if no searchterm, get everything
     else:
         ridenames = RideName.objects.all()
-    
+
     returned_data = []
     for ride in ridenames:
         serialized_ride = RideNameSerializer(ride, many=False)
         ride_dict = serialized_ride.data
-        ride_dict['ridetype'] = RideTypeSerializer(ride.ridetype, many=False).data
+        ride_dict['ridetype'] = RideTypeSerializer(
+            ride.ridetype, many=False).data
         returned_data.append(ride_dict)
 
     # serialized_ridenames = RideNameSerializer(ridenames, many=True)
     # print(serialized_ridenames.data)
     # return Response(serialized_ridenames.data)
-    
+
     return Response(returned_data)
+
 
 @api_view(['GET'])
 def get_products(request):

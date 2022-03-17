@@ -14,5 +14,6 @@ def get_start_ages() -> tuple[int]:
 def get_sorted_age_modifiers(in_og: bool = False) -> tuple[AgeModifier]:
     sorted_age_modifiers = []
     for age in get_start_ages():
-        sorted_age_modifiers.append(AgeModifier.objects.get(in_og=in_og, age_start=age))
+        sorted_age_modifiers.append(
+            AgeModifier.objects.get(in_og=in_og, age_start=age))
     return tuple(sorted_age_modifiers)

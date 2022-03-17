@@ -10,12 +10,13 @@ from .utils import get_ridenames_for_ridetype, get_dict_of_ridetypes_and_ridenam
 def ridetype_overview_view(request, *args, **kwargs):
     # ridetypes = RideType.objects.all()
     # ridedata = [(rt, get_ridenames_for_ridetype(rt)) for rt in ridetypes]
-    ridedata = [value for _, value in get_dict_of_ridetypes_and_ridenames().items()]
+    ridedata = [value for _,
+                value in get_dict_of_ridetypes_and_ridenames().items()]
     context = {
         'ridedata': ridedata
         # 'ridetypes': ridetypes,
         # 'all_ridenames': all_ridenames
-        }
+    }
     return render(request, 'ridetypes/ridetype_overview.html', context)
 
 

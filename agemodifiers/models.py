@@ -2,6 +2,8 @@ from enum import unique
 from django.db import models
 
 # Create your models here.
+
+
 class AgeModifier(models.Model):
     in_og = models.BooleanField()
     age_start = models.PositiveSmallIntegerField()

@@ -1,6 +1,7 @@
 
 from .models import RideType, RideName
 
+
 def get_ridetype(ride_name: str) -> RideType:
     try:
         ridename = RideName.objects.get(name=ride_name)
@@ -39,6 +40,6 @@ def get_dict_of_ridetypes_and_ridenames() -> dict:
         if ridename.ridetype.name in everything:
             everything[ridename.ridetype.name][1].append(ridename)
         else:
-            everything[ridename.ridetype.name] = [ridename.ridetype, [ridename]]
+            everything[ridename.ridetype.name] = [
+                ridename.ridetype, [ridename]]
     return everything
-

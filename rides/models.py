@@ -5,6 +5,7 @@ from ridetypes.models import RideType, RideName
 
 # Create your models here.
 
+
 class Ride(models.Model):
     # ridetype = models.ForeignKey(RideType, on_delete=models.CASCADE)
     ridename = models.ForeignKey(RideName, on_delete=models.CASCADE)

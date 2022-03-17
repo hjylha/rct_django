@@ -34,8 +34,9 @@ openrct2_url = 'https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/src/
 # static const row ageTableOld[] = {
 # };
 
+
 # get ratings multipliers from a line of text, if they are there
-def get_ratings_multipliers(line_of_text : str) -> tuple:
+def get_ratings_multipliers(line_of_text: str) -> tuple:
     if 'RatingsMultipliers' in line_of_text:
         numbers = '1234567890'
         start_index = None
@@ -50,8 +51,9 @@ def get_ratings_multipliers(line_of_text : str) -> tuple:
         return tuple(EIN)
     return None
 
+
 # get bonusvalue of a ride from a line of text, if it is there
-def get_rides_bonusvalue(line_of_text : str) -> int:
+def get_rides_bonusvalue(line_of_text: str) -> int:
     if 'BonusValue' in line_of_text:
         numbers = '1234567890'
         start_index = None
@@ -62,6 +64,7 @@ def get_rides_bonusvalue(line_of_text : str) -> int:
                 end_index = i
         return int(line_of_text[start_index:end_index+1])
     return None
+
 
 # get ratings modifiers and bonusvalue from file
 def get_ride_data_from_file(file):
@@ -74,8 +77,9 @@ def get_ride_data_from_file(file):
         if EIN is not None and bonusvalue is not None:
             return (EIN, bonusvalue)
 
+
 # changing AirPoweredVerticalCoaster into Air Powered Vertical Coaster
-def add_spaces_to_ride_names(ride_wo_spaces : str) -> str:
+def add_spaces_to_ride_names(ride_wo_spaces: str) -> str:
     ride_name = ride_wo_spaces
     i = 1
     while True:
@@ -87,6 +91,7 @@ def add_spaces_to_ride_names(ride_wo_spaces : str) -> str:
             i += 1
         except IndexError:
             return ride_name
+
 
 # get EIN modifiers and bonusvalue for all rides with files (except shops)
 def get_ride_data_from_files():
@@ -105,7 +110,7 @@ def get_ride_data_from_files():
             # print(file)
             # ride_name = add_spaces_to_ride_names(file.stem)
             # with open(file) as f:
-                # ride_data = get_ride_data_from_file(f)
+            # ride_data = get_ride_data_from_file(f)
             # ride_name = file.stem
             file_url = f'{curr_url}/{file.name}'
             req = requests.get(file_url)
@@ -114,10 +119,12 @@ def get_ride_data_from_files():
             print(f'Found {file.stem}: {ride_data}')
     return rides
 
+
 # get age modifiers from line
-def get_age_modifiers_from_line(line : str) -> tuple:
+def get_age_modifiers_from_line(line: str) -> tuple:
     values0 = line.split('}')[0].split('{')[1].split(',')
     return tuple([int(value.strip()) for value in values0])
+
 
 # get age modifiers from a file
 # static const row ageTableNew[] = {
@@ -147,6 +154,7 @@ def get_age_table(file_lines) -> dict:
             elif 'ageTableOld[]' in line:
                 reading = True
     return {'new': new_table, 'old': old_table}
+
 
 # get age modifiers from RideRatings.cpp
 def get_age_modifiers_from_file() -> dict:

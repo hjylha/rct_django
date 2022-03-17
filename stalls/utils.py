@@ -17,4 +17,3 @@ def get_viewable_products():
         }
         products.append(product)
     return products
-    

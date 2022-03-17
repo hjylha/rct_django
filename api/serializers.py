@@ -9,11 +9,14 @@ class RideTypeSerializer(ModelSerializer):
         model = RideType
         fields = '__all__'
 
+
 class RideNameSerializer(ModelSerializer):
     class Meta:
         model = RideName
         # fields = '__all__'
-        fields = ['name', 'is_visible', 'excitement_modifier', 'intensity_modifier', 'nausea_modifier']
+        fields = ['name', 'is_visible', 'excitement_modifier',
+                  'intensity_modifier', 'nausea_modifier']
+
 
 class ProductSerializer(ModelSerializer):
     class Meta:
