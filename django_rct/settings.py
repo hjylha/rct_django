@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'ridetypes',
     'rides',
     'stalls',
-    'agemodifiers'
+    'agemodifiers',
+    'api',
+    # other
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

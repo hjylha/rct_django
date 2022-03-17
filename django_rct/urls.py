@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ridetypes/', include('ridetypes.urls')),
     path('products/', include('stalls.urls')),
-    # path('api/', include('api.urls'))
+    path('api/', include('api.urls'))
 ]
